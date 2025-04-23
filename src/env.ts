@@ -1,10 +1,16 @@
 import process from 'node:process'
 
-const API_ID = Number.parseInt(process.env.API_ID!)
-const API_HASH = process.env.API_HASH!
+import { cleanEnv, num, str } from 'envalid'
+import 'dotenv/config'
 
-if (Number.isNaN(API_ID) || !API_HASH) {
-    throw new Error('API_ID or API_HASH not set!')
-}
+const env = cleanEnv(process.env, {
+    API_ID: num(),
+    API_HASH: str(),
+    SESSION: str(),
+    GROUP_ID: num(),
+    BOT_ID: num(),
+    NIGHT_PLAYERS: num(),
+    DAY_PLAYERS: num(),
+})
 
-export { API_HASH, API_ID }
+export default env
