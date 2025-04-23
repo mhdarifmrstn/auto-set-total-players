@@ -15,6 +15,7 @@ const tg = new TelegramClient({
 
 const dp = Dispatcher.for(tg)
 const delay = 1000
+const timeout = 30000
 
 dp.onNewMessage(filters.userId(env.BOT_ID), async (msg) => {
     const configText = tr(msg, 'configText').toString()
@@ -56,3 +57,5 @@ console.log('Logged in as', user.displayName)
 const msg = await tg.sendText(env.GROUP_ID, '/config@astarothrobot')
 await sleep(delay)
 await tg.deleteMessages([msg])
+
+setTimeout(() => process.exit(), timeout)
