@@ -40,7 +40,7 @@ dp.onEditMessage(filters.userId(env.BOT_ID), async (msg) => {
         const maxPlayers = isNight() ? env.NIGHT_PLAYERS : env.DAY_PLAYERS
         const buttons = getButtons(msg)
         const cbButtons = buttons.filter(b => b._ === 'keyboardButtonCallback')
-        const newMaxPlayersButton = cbButtons.find(b => b.text.includes(String()))
+        const newMaxPlayersButton = cbButtons.find(b => b.text.includes(String(maxPlayers)))
 
         if (!newMaxPlayersButton) {
             throw new Error(`${maxPlayers} total players button is not found`)
