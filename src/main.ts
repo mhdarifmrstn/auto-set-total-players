@@ -4,7 +4,7 @@ import { Dispatcher, filters } from '@mtcute/dispatcher'
 import { TelegramClient } from '@mtcute/node'
 
 import env from './env.js'
-import { getButtons, isNight, sleep } from './extra.js'
+import { getButtons, isNight, retryGetCallbackAnswer, sleep } from './extra.js'
 import { tr } from './i18n/index.js'
 
 const tg = new TelegramClient({
@@ -30,7 +30,7 @@ dp.onNewMessage(filters.userId(env.BOT_ID), async (msg) => {
             throw new Error('Max player button is not found')
         }
         await sleep(delay)
-        await msg.client.getCallbackAnswer({ message: msg, data: maxPlayerButton.data })
+        await retryGetCallbackAnswer(msg, maxPlayerButton.data)
     }
 })
 dp.onEditMessage(filters.userId(env.BOT_ID), async (msg) => {
@@ -46,7 +46,7 @@ dp.onEditMessage(filters.userId(env.BOT_ID), async (msg) => {
             throw new Error(`${maxPlayers} total players button is not found`)
         }
         await sleep(delay)
-        const answer = await msg.client.getCallbackAnswer({ message: msg, data: newMaxPlayersButton.data })
+        const answer = await retryGetCallbackAnswer(msg, newMaxPlayersButton.data)
         console.log(answer)
         process.exit()
     }
