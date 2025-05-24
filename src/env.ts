@@ -11,6 +11,9 @@ const env = cleanEnv(process.env, {
     BOT_ID: num(),
     NIGHT_PLAYERS: num(),
     DAY_PLAYERS: num(),
+    NIGHT_START: num({ default: 1 }),
+    NIGHT_END: num({ default: 9 }),
+    TIMEZONE_OFFSET: num({ default: 7 }),
 })
 
 export default env

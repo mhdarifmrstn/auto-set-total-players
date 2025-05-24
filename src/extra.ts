@@ -2,12 +2,18 @@ import type { MessageContext } from '@mtcute/dispatcher'
 import type { Message } from '@mtcute/node'
 import { tl } from '@mtcute/node'
 
+import env from './env.js'
+
 export function isNight(): boolean {
     const now = new Date()
     const utcHour = now.getUTCHours()
-    const wibHour = (utcHour + 7) % 24
+    const localHour = (utcHour + env.TIMEZONE_OFFSET + 24) % 24
 
-    return wibHour >= 1 && wibHour < 9
+    if (env.NIGHT_START < env.NIGHT_END) {
+        return localHour >= env.NIGHT_START && localHour < env.NIGHT_END
+    } else {
+        return localHour >= env.NIGHT_START || localHour < env.NIGHT_END
+    }
 }
 
 export function getButtons(msg: Message): tl.TypeKeyboardButton[] {
