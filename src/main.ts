@@ -37,7 +37,8 @@ dp.onEditMessage(filters.userId(env.BOT_ID), async (msg) => {
     const maxPlayerText = tr(msg, 'maxPlayersText').toString()
 
     if (msg.text.includes(maxPlayerText)) {
-        const maxPlayers = isNight() ? env.NIGHT_PLAYERS : env.DAY_PLAYERS
+        const defaultPlayers = isNight() ? env.NIGHT_PLAYERS : env.DAY_PLAYERS
+        const maxPlayers = env.MAX_PLAYERS || defaultPlayers
         const buttons = getButtons(msg)
         const cbButtons = buttons.filter(b => b._ === 'keyboardButtonCallback')
         const newMaxPlayersButton = cbButtons.find(b => b.text.includes(String(maxPlayers)))
